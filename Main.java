@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Main {
 
-    // Function to print Matrix
+    // Función para imprimir una matriz
     static void printMatrix(double M[][], int rowSize, int colSize) {
         for (int i = 0; i < rowSize; i++) {
             for (int j = 0; j < colSize; j++)
@@ -11,7 +11,7 @@ public class Main {
         }
     }
 
-    // Function to multiply matrices
+    // Función para multiplicar matrices
     static void multiplyMatrix(int row1, int col1, int A[][], int row2, int col2, int B[][]) {
         int i, j, k;
 
@@ -33,7 +33,7 @@ public class Main {
         printMatrix(toDoubleMatrix(C), row1, col2);
     }
 
-    // Function to add matrices
+    // Función para sumar matrices
     static void sumMatrix(int filas, int columnas, int matrizA[][], int matrizB[][]) {
         int[][] matrizSuma = new int[filas][columnas];
 
@@ -47,7 +47,7 @@ public class Main {
         printMatrix(toDoubleMatrix(matrizSuma), filas, columnas);
     }
 
-    // Function to subtract matrices
+    // Función para restar matrices
     static void subMatrix(int filas, int columnas, int matrizA[][], int matrizB[][]) {
         int[][] matrizResta = new int[filas][columnas];
 
@@ -61,7 +61,7 @@ public class Main {
         printMatrix(toDoubleMatrix(matrizResta), filas, columnas);
     }
 
-    // Function to calculate determinant
+    // Función para calcular el determinante de una matriz
     static double determinant(double[][] matrix) {
         int n = matrix.length;
         if (n != matrix[0].length) {
@@ -91,7 +91,7 @@ public class Main {
         return det;
     }
 
-    // Function to perform Gaussian elimination (row reduction)
+    // Función para reducir una matriz a su forma escalonada (eliminación gaussiana)
     static double[][] rowReduction(double[][] matrix) {
         int rows = matrix.length;
         int cols = matrix[0].length;
@@ -111,18 +111,18 @@ public class Main {
                 }
             }
 
-            // Swap rows i and r
+            // Intercambiar filas i y r
             double[] temp = reduced[i];
             reduced[i] = reduced[r];
             reduced[r] = temp;
 
-            // Normalize row r
+            // Normalizar la fila r
             double lv = reduced[r][lead];
             for (int j = 0; j < cols; j++) {
                 reduced[r][j] /= lv;
             }
 
-            // Eliminate other rows
+            // Eliminar en otras filas
             for (int k = 0; k < rows; k++) {
                 if (k != r && reduced[k][lead] != 0) {
                     double factor = reduced[k][lead];
@@ -136,7 +136,7 @@ public class Main {
         return reduced;
     }
 
-    // Function to calculate matrix inverse using Gauss-Jordan
+    // Función para calcular la matriz inversa usando Gauss-Jordan
     static double[][] inverse(double[][] matrix) {
         int n = matrix.length;
         if (n != matrix[0].length) {
@@ -148,17 +148,17 @@ public class Main {
             throw new IllegalArgumentException("La matriz es singular (determinante = 0), no tiene inversa");
         }
 
-        // Create augmented matrix [A|I]
+        // Crear matriz aumentada [A|I]
         double[][] augmented = new double[n][2 * n];
         for (int i = 0; i < n; i++) {
             System.arraycopy(matrix[i], 0, augmented[i], 0, n);
             augmented[i][n + i] = 1;
         }
 
-        // Perform Gauss-Jordan elimination
+        // Realizar eliminación Gauss-Jordan
         augmented = rowReduction(augmented);
 
-        // Extract the inverse matrix
+        // Extraer la matriz inversa
         double[][] inverse = new double[n][n];
         for (int i = 0; i < n; i++) {
             System.arraycopy(augmented[i], n, inverse[i], 0, n);
@@ -167,7 +167,7 @@ public class Main {
         return inverse;
     }
 
-    // Helper function to copy a matrix
+    // Función auxiliar para copiar una matriz
     static double[][] copyMatrix(double[][] matrix) {
         double[][] copy = new double[matrix.length][matrix[0].length];
         for (int i = 0; i < matrix.length; i++) {
@@ -176,7 +176,7 @@ public class Main {
         return copy;
     }
 
-    // Helper function to convert int matrix to double matrix
+    // Función auxiliar para convertir matriz de int a double
     static double[][] toDoubleMatrix(int[][] matrix) {
         double[][] result = new double[matrix.length][matrix[0].length];
         for (int i = 0; i < matrix.length; i++) {
@@ -187,10 +187,12 @@ public class Main {
         return result;
     }
 
+    // Función para obtener el número de filas de una matriz
     static int getRow(int matriz[][]) {
         return matriz.length;
     }
 
+    // Función para obtener el número de columnas de una matriz
     static int getColumn(int matriz[][]) {
         return matriz[0].length;
     }
@@ -209,7 +211,7 @@ public class Main {
                 {3, 2, 1}
         };
 
-        //Obtenemos las dimensiones de las matrices
+        // Obtenemos las dimensiones de las matrices
         int filasMatrizA = getRow(matrizA);
         int columnasMatrizA = getColumn(matrizA);
 
@@ -232,24 +234,24 @@ public class Main {
             System.out.println("No se puede hacer suma y resta, las matrices deben tener las mismas dimensiones");
         }
 
-        // Multiplicación
+        // Multiplicación de matrices
         multiplyMatrix(filasMatrizA, columnasMatrizA, matrizA, filasMatrizB, columnasMatrizB, matrizB);
 
         // Operaciones avanzadas
         try {
             double[][] doubleMatrizA = toDoubleMatrix(matrizA);
             
-            // Determinante
+            // Cálculo del determinante
             System.out.println("\nCalculando determinante de Matriz A:");
             double detA = determinant(doubleMatrizA);
             System.out.printf("Determinante: %.2f\n", detA);
 
-            // Reducción de matriz (forma escalonada)
+            // Reducción a forma escalonada
             System.out.println("\nReduccion de Matriz A (forma escalonada):");
             double[][] reducedA = rowReduction(doubleMatrizA);
             printMatrix(reducedA, reducedA.length, reducedA[0].length);
 
-            // Matriz inversa (solo si es invertible)
+            // Cálculo de matriz inversa (solo si es invertible)
             if (detA != 0) {
                 System.out.println("\nMatriz Inversa de A:");
                 double[][] inverseA = inverse(doubleMatrizA);
